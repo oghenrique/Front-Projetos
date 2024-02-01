@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url("../img/background.svg");
+    background-size: cover;
+}
+
+main{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    place-content: center;
+}
+
+.logo-icon{
+    width: 20rem;
+    margin-top: -5rem;
+}
+
+.login{
+    width: 39.75rem;
+    height: 40.625rem;
+    background: url("../img/quadradoLogin.svg");
+    margin-top: -3.125rem;
+} 
