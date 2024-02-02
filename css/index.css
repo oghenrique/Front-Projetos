@@ -1,29 +1,132 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-body{
+body {
     background-image: url("../img/background.svg");
     background-size: cover;
 }
 
-main{
+main {
     display: flex;
     align-items: center;
     align-content: center;
     place-content: center;
 }
 
-.logo-icon{
+.logo-icon {
     width: 20rem;
     margin-top: -5rem;
 }
 
-.login{
+.login {
     width: 39.75rem;
     height: 40.625rem;
     background: url("../img/quadradoLogin.svg");
     margin-top: -3.125rem;
-} 
+}
+
+.email {
+    width: 31.25rem;
+    margin-left: 4rem;
+    height: 3.125rem;
+    /* margin-top: 8rem; */
+    border-radius: 2rem;
+    border-color: white;
+    background-color: #c6c3c3;
+    opacity: 50%;
+    padding-left: 2.8rem;
+    font-size: larger;
+    color: black;
+    border-style: double;
+    border-width: 0.25rem;
+}
+
+.text-login {
+    margin-left: 12rem;
+    background-color: #c6c3c3;
+    margin-right: 12rem;
+    padding-left: 0.925rem;
+    height: 6rem;
+    padding-top: 0.875rem;
+    border-radius: 0.625rem;
+}
+
+h2 {
+    padding-left: 3rem;
+    font-size: 50px;
+    font-weight: lighter;
+}
+
+#password {
+    width: 31.25rem;
+    margin-left: 4rem;
+    height: 3.125rem;
+    margin-top: 2rem;
+    border-radius: 2rem;
+    border-color: white;
+    background-color: #c6c3c3;
+    opacity: 50%;
+    padding-left: 2.8rem;
+    font-size: larger;
+    color: black;
+    border-style: double;
+    border-width: 0.25rem;
+}
+
+.text-email {
+    padding-top: 6.25rem;
+    padding-left: 4.375rem;
+    padding-bottom: 0.625rem;
+}
+
+.text-pass {
+    padding-left: 4.375rem;
+    padding-top: 1.25rem;
+    margin-bottom: -1.25rem;
+}
+
+.text {
+    color: white;
+    font-size: large;
+}
+
+.cadeado {
+    width: 1.7rem;
+    margin-left: 80px;
+    margin-top: -6.25rem;
+    margin-bottom: 1.85rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-btn {
+    border-radius: 2rem;
+    width: 12.5rem;
+    height: 3.125rem;
+    background-color: #c6c3c3;
+    border: transparent;
+    margin-left: 13.75rem;
+    margin-top: 0.625rem;
+    cursor: pointer;
+}
+
+.reset-pass {
+    background-color: transparent;
+    border: transparent;
+    cursor: pointer;
+    margin-left: 25rem;
+}
+
+.btn {
+    background-color: transparent;
+    border: transparent;
+    cursor: pointer;
+    margin-top: 1.25rem;
+}
