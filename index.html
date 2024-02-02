@@ -7,6 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,100&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Righteous&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap'>
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100&display=swap" rel="stylesheet">
+    <script src="./app.js" defer></script>
     <link rel="stylesheet" href="./css/index.css">
     <title>Gerenciador de Tarefas</title>
 </head>
@@ -16,26 +20,38 @@
         <img src="./img/Gerenciador.svg" alt="" class="logo-icon">
     </header>
     <main>
-        <div class="login">
-            <div class="text-login">
-                <h2>Login</h2>
-            </div>
+        <div class="wrapper">
             <div class="login-box">
-                <div class="div-email">
-                    <p class="text text-email">Username/email</p>
-                    <input type="email" class="email" id="email">
+                <div class="login-header">
+                    <span>Login</span>
                 </div>
-                <img src="./img/Usuario.svg" alt="" class="cadeado">
-                <div class="div-senha">
-                    <p class="text text-pass">Password</p>
-                    <input type="password" id="password">
-                </div>
-                <img src="./img/cadeado.svg" alt="" class="cadeado">
-            </div>
-            <div class="buttons">
-                <button id="reset-pass" class="text reset-pass">Forgot Password</button>
-                <button class="text login-btn" id="login-btn">Login</button>
-                <button class="text btn create-btn" id="create-btn">Don't have an account? Register</button>
+                    <div class="input-box">
+                        <input type="text" id="user" class="input-field" required>
+    
+                        <label for="user" class="label">Username/email
+                        </label>
+                        <i class="bx bx-user icon"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" id="pass" class="input-field" autocomplete="off">
+                        <label for="pass" class="label">Password</label>
+                        <i class="bx bx-lock-alt icon" id="show-password">
+    
+                        </i>
+                    </div>
+                    <div class="remember-forgot">
+                        <div class="forgot">
+                            <a href="">Forgot password</a>
+                        </div>
+                    </div>
+    
+                    <div class="input-box">
+                        <input type="submit" class="input-submit" value="Login">
+                    </div>
+                    <div class="register">
+                        <span>Don't have an account?
+                            <a href="">Register</a></span>
+                    </div>
             </div>
         </div>
     </main>
