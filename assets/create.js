@@ -2,27 +2,17 @@
 
 const botaoSub = document.getElementById('create-account')
 
-let proximoId = 1
-const usuarios = []
+let usuarios = []
 
-function obterValoresDosCampos() {
-    const nome = document.getElementById('user-name').value.trim()
-    const email = document.getElementById('user').value.trim()
-    const senha = document.getElementById('pass').value
-    const validaSenha = document.getElementById('pass-confirm').value
+async function obterUsuarios() {
+    const url = 'http://127.0.0.1:5080/usuario'
+    const response = await fetch(url)
+    usuarios = await response.json()
+}
 
-    if (validaSenha !== senha) {
-        alert("Senha Inválida")
-        return;
-    }
-
-    if (usuarios.some(usuario => usuario.email === email)) {
-        alert("Email já está em uso.")
-        return
-    }
-
-    const novoUsuarioLocal = cadastrarUsuario(nome, email, senha)
-    enviarUsuarioParaBackend(novoUsuarioLocal)
+async function validarEmail(email) {
+    await obterUsuarios()
+    return usuarios.some(usuario => usuario.email.trim() === email)
 }
 
 async function enviarUsuarioParaBackend(usuarioLocal) {
@@ -40,27 +30,46 @@ async function enviarUsuarioParaBackend(usuarioLocal) {
         if (response.ok) {
             const usuarioDoBackend = await response.json()
             console.log('Usuário cadastrado com sucesso no backend:', usuarioDoBackend)
+            alert('Cadastro bem-sucedido!')
             window.location.href = '../index.html'
         } else {
             console.error('Erro ao cadastrar usuário no backend:', response.statusText)
+            alert('Erro ao cadastrar usuário. Tente novamente.')
         }
     } catch (error) {
         console.error('Erro ao comunicar com o backend:', error)
+        alert('Erro ao comunicar com o servidor. Tente novamente.')
     }
 }
 
+function obterValoresDosCampos() {
+    const nome = document.getElementById('user-name').value.trim()
+    const email = document.getElementById('user').value.trim()
+    const senha = document.getElementById('pass').value
+    const validaSenha = document.getElementById('pass-confirm').value
 
-function cadastrarUsuario(nome, email, senha) {
-
-    const novoUsuarioLocal = {
-        nome: nome,
-        email: email,
-        senha: senha
+    if (!nome || !email || !senha || !validaSenha) {
+        alert("Preencha todos os campos.")
+        return
     }
 
-    usuarios.push(novoUsuarioLocal)
+    if (validaSenha !== senha) {
+        alert("Senhas não coincidem.")
+        return
+    }
 
-    return novoUsuarioLocal
+    validarEmail(email).then(emailEmUso => {
+        if (emailEmUso) {
+            alert("Email já está em uso.")
+        } else {
+            const novoUsuarioLocal = {
+                nome: nome,
+                email: email,
+                senha: senha
+            }
+            enviarUsuarioParaBackend(novoUsuarioLocal)
+        }
+    })
 }
 
 botaoSub.addEventListener('click', obterValoresDosCampos)
