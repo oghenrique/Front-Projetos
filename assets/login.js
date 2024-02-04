@@ -7,7 +7,6 @@ async function obterDados() {
     try {
         const response = await fetch(url)
         const usuarios = await response.json()
-        console.log(usuarios)
         return usuarios
     } catch (error) {
         console.error('Erro ao obter dados do usuário:', error)
