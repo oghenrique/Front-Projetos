@@ -20,11 +20,11 @@ function fazerLogin() {
         var senhaInput = document.getElementById('pass').value
 
         var usuarioEncontrado = usuarios.find(function(usuario) {
-            console.log(emailInput, senhaInput, usuario)
             return usuario.email.trim() === emailInput && usuario.senha === senhaInput
         })
 
         if (usuarioEncontrado) {
+            sessionStorage.setItem('userId', usuarioEncontrado.id)
             window.location.href = '/html/pgHome.html'
         } else {
             alert('Usuário ou senha incorretos. Tente novamente.')
