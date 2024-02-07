@@ -1,0 +1,123 @@
+.wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 65vh;
+}
+
+.login-box{
+    width: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    padding: 60px;
+    padding-bottom: 30px;
+}
+
+.tasks {
+    width: 640px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
+
+
+.input-task {
+    width: 65%;
+    height: 3.4375rem;
+    font-size: 16px;
+    background: transparent;
+    color: var(--second-color);
+    padding-inline: 20px 50px;
+    border: 2px solid var(--second-color);
+    border-radius: 30px;
+    outline: none;
+}
+
+.input-task::placeholder{
+    color: #ffffff;
+}
+
+.button-add-task {
+    width: 150px;
+    border: none;
+    border-radius: 32px;
+    height: 3rem;
+    background-color: #23B220;
+    color: #ffffff;
+    font-size: 24px;
+    padding: 0 15px;
+    float: right;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.button-add-task:hover {
+    opacity: 0.8;
+}
+
+.list-tasks {
+    width: 100%;
+    list-style: none;
+    margin-top: 30px;
+}
+
+.task {
+    color: black;
+    background-color: var(--second-color);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    border-radius: 32px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-size: 20px;
+}
+.circle {
+    width: 25px; 
+    height: 25px; 
+    border-radius: 50%; 
+    display: inline-block;
+    opacity: 0;
+    transition: opacity 0.5s;
+
+}
+
+.checked{
+    background-color: #23B220;
+}
+
+.trash{
+    background-color: #FF0000;
+}
+.edit{
+    background-color: #C6BE0F;
+}
+
+.task:hover .circle {
+    opacity: 1;
+}
+
+.done {
+    background-color: #8fac55;
+    text-decoration: line-through;
+}
+
+.task p {
+    text-align: center;
+}
+
+.edit-container {
+    display: flex;
+    gap: 8px;
+}
+
+p[contenteditable="true"] {
+    cursor: text;
+  }
