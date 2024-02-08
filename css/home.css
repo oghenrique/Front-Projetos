@@ -8,7 +8,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 65vh;
+    min-height: 100vh;
 }
 
 .login-box{
@@ -27,6 +27,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     gap: 24px;
 }
 
@@ -69,6 +70,22 @@ body {
     width: 100%;
     list-style: none;
     margin-top: 30px;
+    max-height: 300px; 
+    overflow-y: auto;
+}
+
+.list-tasks::-webkit-scrollbar {
+    width: 8px; 
+    height: 10%
+}
+
+.list-tasks::-webkit-scrollbar-track {
+    background-color: transparent; 
+}
+
+.list-tasks::-webkit-scrollbar-thumb {
+    background-color: transparent; 
+    border-radius: 16px; 
 }
 
 .task {
