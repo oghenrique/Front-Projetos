@@ -1,101 +1,175 @@
-// 'use strict'
+'use strict';
 
-// const userId = sessionStorage.getItem('userId')
+const button = document.querySelector('.button-add-task');
+const input = document.querySelector('.input-task');
+const listaCompleta = document.querySelector('.list-tasks');
+let minhaListaDeItens = [];
 
-// async function obterTarefas() {
-//     const url = `http://127.0.0.1:5080/tarefas?id=${userId}`
+async function obterTarefas() {
+    const userId = sessionStorage.getItem('userId');
+    console.log('UserID:', userId); // Verifique se o userID está definido corretamente
 
-//     const response = await fetch(url)
-//     const tarefas = await response.json()
+    const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`; // Alterado para idUsuario
 
-//     console.log(tarefas)
-// }
+    try {
+        const response = await fetch(url);
+        const tarefas = await response.json();
 
-// obterTarefas()
+        // Filtrar apenas as tarefas do usuário logado
+        minhaListaDeItens = tarefas.tarefas
+            .filter(tarefa => tarefa.idUsuario == userId)
+            .map(tarefa => ({
+                id: tarefa.id,
+                tarefa: tarefa.descrição,
+                concluida: false
+            }));
 
-const button = document.querySelector('.button-add-task')
-const input = document.querySelector('.input-task')
-const listaCompleta = document.querySelector('.list-tasks')
+        mostrarTarefas();
+    } catch (error) {
+        console.error('Erro ao obter tarefas:', error);
+    }
+}
 
-let minhaListaDeItens = []
 
-function adicionarNovaTarefa() {
-    minhaListaDeItens.push({
+async function adicionarNovaTarefa() {
+    const userId = sessionStorage.getItem('userId');
+    const novaTarefa = {
         tarefa: input.value,
         concluida: false,
-    })
+        idUsuario: userId
+    };
 
-    input.value = ''
+    try {
+        const response = await fetch('http://127.0.0.1:5080/tarefas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(novaTarefa)
+        });
 
-    mostrarTarefas()
+        if (!response.ok) {
+            throw new Error('Erro ao adicionar nova tarefa');
+        }
+
+        const tarefaCriada = await response.json();
+        novaTarefa.id = tarefaCriada.id;
+        minhaListaDeItens.push(novaTarefa);
+        input.value = '';
+        mostrarTarefas();
+    } catch (error) {
+        console.error('Erro ao adicionar nova tarefa:', error);
+    }
+}
+
+async function finalizarEdicao(posicao, novoTexto, idTarefa) {
+    const userId = sessionStorage.getItem('userId');
+    const tarefaAtualizada = {
+        id: idTarefa,
+        tarefa: novoTexto,
+        concluida: minhaListaDeItens[posicao].concluida,
+        idUsuario: userId
+    };
+
+    try {
+        const response = await fetch(`http://127.0.0.1:5080/tarefas/${idTarefa}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(tarefaAtualizada)
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao atualizar tarefa');
+        }
+
+        mostrarTarefas();
+    } catch (error) {
+        console.error('Erro ao atualizar tarefa:', error);
+    }
 }
 
 function mostrarTarefas() {
-    let novaLi = ''
+    let novaLi = '';
     minhaListaDeItens.forEach((item, posicao) => {
-      novaLi +=
-        `<li class="task ${item.concluida ? 'done' : ''}">
-          <div class="circle checked" onclick="concluirTarefa(${posicao})"></div>
+        const idTarefa = item.id;
+        novaLi +=
+            `<li class="task ${item.concluida ? 'done' : ''}">
+          <div class="circle checked" onclick="concluirTarefa(${posicao}, ${idTarefa})"></div>
           <p contenteditable="${item.editando ? 'true' : 'false'}" 
-             onblur="finalizarEdicao(${posicao}, this.innerText)"
-             onkeydown="verificarEnter(event, ${posicao})">${item.tarefa}</p>
+             onblur="finalizarEdicao(${posicao}, this.innerText, ${idTarefa})"
+             onkeydown="verificarEnter(event, ${posicao}, ${idTarefa})">${item.tarefa}</p>
           <div class="edit-container">
-              <div class="circle edit" onclick="editarItem(${posicao})"></div>
-              <div class="circle trash" onclick="deletarItem(${posicao})"></div>
+              <div class="circle edit" onclick="editarItem(${posicao}, ${idTarefa})"></div>
+              <div class="circle trash" onclick="deletarItem(${idTarefa})"></div> <!-- Passar o ID da tarefa como argumento -->
           </div>
-        </li>`
-    })
-    listaCompleta.innerHTML = novaLi
-    localStorage.setItem('lista', JSON.stringify(minhaListaDeItens))
-  }
-  
-  function verificarEnter(event, posicao) {
+        </li>`;
+    });
+    listaCompleta.innerHTML = novaLi;
+    localStorage.setItem('lista', JSON.stringify(minhaListaDeItens));
+}
+
+function verificarEnter(event, posicao, idTarefa) {
     if (event.key === 'Enter') {
-      event.preventDefault()
-      finalizarEdicao(posicao, event.target.innerText)
+        event.preventDefault();
+        finalizarEdicao(posicao, event.target.innerText, idTarefa);
     }
-  }
-  
+}
 
-function editarItem(posicao) {
-    minhaListaDeItens = minhaListaDeItens.map((item, index) => {
-        if (index === posicao) {
-            return { ...item, editando: true }
+async function concluirTarefa(posicao, idTarefa) {
+    const userId = sessionStorage.getItem('userId');
+    const tarefaConcluida = {
+        ...minhaListaDeItens[posicao],
+        concluida: !minhaListaDeItens[posicao].concluida,
+        idUsuario: userId
+    };
+
+    try {
+        const response = await fetch(`http://127.0.0.1:5080/tarefas/${idTarefa}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(tarefaConcluida)
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao concluir tarefa');
         }
-        return item
-    })
-    mostrarTarefas()
-    document.querySelectorAll('.list-tasks .task p')[posicao].focus()
-}
 
-function finalizarEdicao(posicao, novoTexto) {
-    minhaListaDeItens[posicao].tarefa = novoTexto
-    minhaListaDeItens[posicao].editando = false
-    mostrarTarefas()
-}
-
-function concluirTarefa(posicao) {
-    minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida
-
-    mostrarTarefas()
-}
-
-function deletarItem(posicao) {
-    minhaListaDeItens.splice(posicao, 1)
-
-    mostrarTarefas()
-}
-
-
-function recarregarTarefas() {
-    const tarefasDoLocalStorage = localStorage.getItem('lista')
-
-    if (tarefasDoLocalStorage) {
-        minhaListaDeItens = JSON.parse(tarefasDoLocalStorage)
+        mostrarTarefas();
+    } catch (error) {
+        console.error('Erro ao concluir tarefa:', error);
     }
-
-    mostrarTarefas()
 }
 
-recarregarTarefas()
-button.addEventListener('click', adicionarNovaTarefa)
+async function deletarItem(idTarefa) {
+    try {
+        const response = await fetch(`http://127.0.0.1:5080/tarefas/${idTarefa}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao deletar tarefa');
+        }
+
+        minhaListaDeItens = minhaListaDeItens.filter(item => item.id !== idTarefa);
+        mostrarTarefas();
+    } catch (error) {
+        console.error('Erro ao deletar tarefa:', error);
+    }
+}
+
+async function recarregarTarefas() {
+    const tarefasDoLocalStorage = localStorage.getItem('lista');
+    if (tarefasDoLocalStorage) {
+        minhaListaDeItens = JSON.parse(tarefasDoLocalStorage);
+        mostrarTarefas();
+    } else {
+        await obterTarefas();
+    }
+}
+
+recarregarTarefas();
+button.addEventListener('click', adicionarNovaTarefa);
