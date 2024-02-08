@@ -36,9 +36,6 @@ async function obterTarefas() {
 }
 
 
-
-
-
 async function adicionarNovaTarefa() {
     const userId = sessionStorage.getItem('userId')
     const novaTarefa = {
