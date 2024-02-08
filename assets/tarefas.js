@@ -4,18 +4,19 @@ const button = document.querySelector('.button-add-task');
 const input = document.querySelector('.input-task');
 const listaCompleta = document.querySelector('.list-tasks');
 let minhaListaDeItens = [];
+const userId = sessionStorage.getItem('userId');
+console.log('UserID:', userId);
 
 async function obterTarefas() {
     const userId = sessionStorage.getItem('userId');
-    console.log('UserID:', userId); // Verifique se o userID está definido corretamente
+    console.log('UserID:', userId);
 
-    const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`; // Alterado para idUsuario
+    const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`;
 
     try {
         const response = await fetch(url);
         const tarefas = await response.json();
 
-        // Filtrar apenas as tarefas do usuário logado
         minhaListaDeItens = tarefas.tarefas
             .filter(tarefa => tarefa.idUsuario == userId)
             .map(tarefa => ({
@@ -84,11 +85,15 @@ async function finalizarEdicao(posicao, novoTexto, idTarefa) {
             throw new Error('Erro ao atualizar tarefa');
         }
 
+        // Atualiza a tarefa na lista local
+        minhaListaDeItens[posicao].tarefa = novoTexto;
+
         mostrarTarefas();
     } catch (error) {
         console.error('Erro ao atualizar tarefa:', error);
     }
 }
+
 
 function mostrarTarefas() {
     let novaLi = '';
@@ -102,12 +107,17 @@ function mostrarTarefas() {
              onkeydown="verificarEnter(event, ${posicao}, ${idTarefa})">${item.tarefa}</p>
           <div class="edit-container">
               <div class="circle edit" onclick="editarItem(${posicao}, ${idTarefa})"></div>
-              <div class="circle trash" onclick="deletarItem(${idTarefa})"></div> <!-- Passar o ID da tarefa como argumento -->
+              <div class="circle trash" onclick="deletarItem(${idTarefa})"></div> 
           </div>
         </li>`;
     });
     listaCompleta.innerHTML = novaLi;
     localStorage.setItem('lista', JSON.stringify(minhaListaDeItens));
+}
+
+function editarItem(posicao, idTarefa) {
+    minhaListaDeItens[posicao].editando = true;
+    mostrarTarefas(); // Atualiza a interface para habilitar a edição
 }
 
 function verificarEnter(event, posicao, idTarefa) {
@@ -138,11 +148,15 @@ async function concluirTarefa(posicao, idTarefa) {
             throw new Error('Erro ao concluir tarefa');
         }
 
+        // Atualiza a tarefa na lista local
+        minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida;
+
         mostrarTarefas();
     } catch (error) {
         console.error('Erro ao concluir tarefa:', error);
     }
 }
+
 
 async function deletarItem(idTarefa) {
     try {
