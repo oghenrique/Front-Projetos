@@ -38,33 +38,40 @@ async function obterTarefas() {
 
 async function adicionarNovaTarefa() {
     const userId = sessionStorage.getItem('userId')
-    const novaTarefa = {
-        tarefa: input.value,
-        concluida: false,
-        idUsuario: userId
-    }
+    const userPremium = sessionStorage.getItem('isPremium')
 
-    try {
-        const response = await fetch('http://127.0.0.1:5080/tarefas', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(novaTarefa)
-        })
-
-        if (!response.ok) {
-            throw new Error('Erro ao adicionar nova tarefa')
+    if(userPremium){
+        const novaTarefa = {
+            tarefa: input.value,
+            concluida: false,
+            idUsuario: userId
         }
-
-        const tarefaCriada = await response.json()
-        novaTarefa.id = tarefaCriada.id
-        minhaListaDeItens.push(novaTarefa)
-        input.value = ''
-        mostrarTarefas()
-    } catch (error) {
-        console.error('Erro ao adicionar nova tarefa:', error)
+    
+        try {
+            const response = await fetch('http://127.0.0.1:5080/tarefas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(novaTarefa)
+            })
+    
+            if (!response.ok) {
+                throw new Error('Erro ao adicionar nova tarefa')
+            }
+    
+            const tarefaCriada = await response.json()
+            novaTarefa.id = tarefaCriada.id
+            minhaListaDeItens.push(novaTarefa)
+            input.value = ''
+            mostrarTarefas()
+        } catch (error) {
+            console.error('Erro ao adicionar nova tarefa:', error)
+        }
+    } else{
+        alert("O usuário não é premium")
     }
+    
 }
 
 async function finalizarEdicao(posicao, novoTexto, idTarefa) {
