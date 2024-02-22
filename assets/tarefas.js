@@ -9,7 +9,9 @@ const userId = sessionStorage.getItem('userId')
 
 async function obterTarefas() {
     const userId = sessionStorage.getItem('userId');
+    const userPremium = sessionStorage.getItem('isPremium')
     console.log('UserID:', userId);
+    console.log('premium:', userPremium)
 
     const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`;
 
@@ -40,7 +42,9 @@ async function adicionarNovaTarefa() {
     const userId = sessionStorage.getItem('userId')
     const userPremium = sessionStorage.getItem('isPremium')
 
-    if(userPremium){
+    if(userPremium == 0){ 
+        alert("O usuário não é premium")
+    } else{
         const novaTarefa = {
             tarefa: input.value,
             concluida: false,
@@ -68,8 +72,6 @@ async function adicionarNovaTarefa() {
         } catch (error) {
             console.error('Erro ao adicionar nova tarefa:', error)
         }
-    } else{
-        alert("O usuário não é premium")
     }
     
 }
