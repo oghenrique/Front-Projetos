@@ -14,7 +14,9 @@ async function obterDados() {
 }
 
 function fazerLogin() {
+
     obterDados().then(usuarios => {
+
         var emailInput = document.getElementById('user').value.trim()
         var senhaInput = document.getElementById('pass').value
 
@@ -24,6 +26,7 @@ function fazerLogin() {
 
         if (usuarioEncontrado) {
             sessionStorage.setItem('userId', usuarioEncontrado.id)
+            sessionStorage.setItem('isPremium', usuarioEncontrado.premium)
             window.location.href = '/html/pgHome.html'
         } else {
             alert('Usuário ou senha incorretos. Tente novamente.')

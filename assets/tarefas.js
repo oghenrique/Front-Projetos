@@ -9,7 +9,9 @@ const userId = sessionStorage.getItem('userId')
 
 async function obterTarefas() {
     const userId = sessionStorage.getItem('userId');
+    const userPremium = sessionStorage.getItem('isPremium')
     console.log('UserID:', userId);
+    console.log('premium:', userPremium)
 
     const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`;
 
@@ -38,33 +40,40 @@ async function obterTarefas() {
 
 async function adicionarNovaTarefa() {
     const userId = sessionStorage.getItem('userId')
-    const novaTarefa = {
-        tarefa: input.value,
-        concluida: false,
-        idUsuario: userId
-    }
+    const userPremium = sessionStorage.getItem('isPremium')
 
-    try {
-        const response = await fetch('http://127.0.0.1:5080/tarefas', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(novaTarefa)
-        })
-
-        if (!response.ok) {
-            throw new Error('Erro ao adicionar nova tarefa')
+    if(userPremium == 0){ 
+        alert("O usuário não é premium")
+    } else{
+        const novaTarefa = {
+            tarefa: input.value,
+            concluida: false,
+            idUsuario: userId
         }
-
-        const tarefaCriada = await response.json()
-        novaTarefa.id = tarefaCriada.id
-        minhaListaDeItens.push(novaTarefa)
-        input.value = ''
-        mostrarTarefas()
-    } catch (error) {
-        console.error('Erro ao adicionar nova tarefa:', error)
+    
+        try {
+            const response = await fetch('http://127.0.0.1:5080/tarefas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(novaTarefa)
+            })
+    
+            if (!response.ok) {
+                throw new Error('Erro ao adicionar nova tarefa')
+            }
+    
+            const tarefaCriada = await response.json()
+            novaTarefa.id = tarefaCriada.id
+            minhaListaDeItens.push(novaTarefa)
+            input.value = ''
+            mostrarTarefas()
+        } catch (error) {
+            console.error('Erro ao adicionar nova tarefa:', error)
+        }
     }
+    
 }
 
 async function finalizarEdicao(posicao, novoTexto, idTarefa) {

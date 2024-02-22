@@ -47,6 +47,11 @@ function obterValoresDosCampos() {
     const email = document.getElementById('user').value.trim()
     const senha = document.getElementById('pass').value
     const validaSenha = document.getElementById('pass-confirm').value
+    const isPremium = document.getElementById("isPremium")
+
+    let statusCheckbox = isPremium.checked
+
+    let statusBoolean = statusCheckbox ? true : false
 
     if (!nome || !email || !senha || !validaSenha) {
         alert("Preencha todos os campos.")
@@ -65,7 +70,8 @@ function obterValoresDosCampos() {
             const novoUsuarioLocal = {
                 nome: nome,
                 email: email,
-                senha: senha
+                senha: senha,
+                premium: statusBoolean
             }
             enviarUsuarioParaBackend(novoUsuarioLocal)
         }
