@@ -149,7 +149,7 @@ function mostrarModalComentario() {
 
 function editarItem(posicao, idTarefa) {
     minhaListaDeItens[posicao].editando = true
-    mostrarTarefas()
+    mostrarTarefas() 
 }
 
 function verificarEnter(event, posicao, idTarefa) {
