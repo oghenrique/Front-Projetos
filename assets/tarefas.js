@@ -8,16 +8,16 @@ const userId = sessionStorage.getItem('userId')
 // console.log('UserID:', userId)
 
 async function obterTarefas() {
-    const userId = sessionStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId')
     const userPremium = sessionStorage.getItem('isPremium')
-    console.log('UserID:', userId);
+    console.log('UserID:', userId)
     console.log('premium:', userPremium)
 
-    const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`;
+    const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`
 
     try {
-        const response = await fetch(url);
-        const tarefasResponse = await response.json();
+        const response = await fetch(url)
+        const tarefasResponse = await response.json()
 
         if (tarefasResponse && Array.isArray(tarefasResponse)) {
             minhaListaDeItens = tarefasResponse
@@ -26,14 +26,14 @@ async function obterTarefas() {
                     id: tarefa.id,
                     tarefa: tarefa.descricao || tarefa.tarefa,
                     concluida: tarefa.concluida || false
-                }));
+                }))
         } else {
-            console.error('Resposta da API inválida:', tarefasResponse);
+            console.error('Resposta da API inválida:', tarefasResponse)
         }
 
-        mostrarTarefas();
+        mostrarTarefas()
     } catch (error) {
-        console.error('Erro ao obter tarefas:', error);
+        console.error('Erro ao obter tarefas:', error)
     }
 }
 
@@ -114,9 +114,14 @@ function mostrarTarefas() {
         const idTarefa = item.id
         novaLi +=
             `<li class="task ${item.concluida ? 'done' : ''}">
-          <div class="circle checked" onclick="concluirTarefa(${posicao}, ${idTarefa})">
-          <i class="fa-solid fa-check"></i>
-          </div>
+            <div class="edit-container">
+                <div class="circle checked" onclick="concluirTarefa(${posicao}, ${idTarefa})">
+                    <i class="fa-solid fa-check"></i>
+                 </div>
+                 <div class="circle comment" onclick="mostrarModalComentario(${posicao}, ${idTarefa})">
+                    <i class="fa-solid fa-comment-dots"></i>
+                 </div>
+            </div>
           <p contenteditable="${item.editando ? 'true' : 'false'}" 
              onblur="finalizarEdicao(${posicao}, this.innerText, ${idTarefa})"
              onkeydown="verificarEnter(event, ${posicao}, ${idTarefa})">${item.tarefa}</p>
@@ -134,9 +139,17 @@ function mostrarTarefas() {
     localStorage.setItem('lista', JSON.stringify(minhaListaDeItens))
 }
 
+function mostrarModalComentario() {
+    var myModal = new bootstrap.Modal(document.getElementById('modalComentario'), {
+        keyboard: false
+    })
+    myModal.show()
+}
+
+
 function editarItem(posicao, idTarefa) {
     minhaListaDeItens[posicao].editando = true
-    mostrarTarefas() // Atualiza a interface para habilitar a edição
+    mostrarTarefas()
 }
 
 function verificarEnter(event, posicao, idTarefa) {
