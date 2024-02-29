@@ -10,6 +10,7 @@ form.addEventListener('submit', (event) =>{
 
     let p = document.createElement('p')
     p.classList = 'p-2 d-flex text-wrap flex-wrap'
+    p.id = 'comentario'
     p.innerHTML = `<strong>${inputTitulo.value}: </strong> &nbsp${textComment.value}`
     
     commentPost.appendChild(p)
