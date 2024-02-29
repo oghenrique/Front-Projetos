@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="../assets/home.js" defer></script>
     <script src="../assets/tarefas.js" defer></script>
+    <script src="../assets/comentarios.js" defer></script>
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="../css/cadastro.css">
@@ -40,20 +41,29 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalComentarioLabel">Modal title</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     
+                     <div class="modal-body">
+                        <form id="formulario" class="rounded-2 bg-white p-5 w-100">
+                            <div class="mb-3">
+                                <label for="inputTitulo" class="form-label">Título do comentário</label>
+                                <input type="text" class="form-control" id="inputTitulo" placeholder="Título do comentário" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputText" class="form-label">Comentário</label>
+                                <textarea class="form-control" id="inputText" placeholder="Comente algo..." required></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Comment</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Título do comentário</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Título do comentário">
-                          </div>
-                          <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Comentário</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                          </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                    <div class="d-flex justify-content-center">
+                        <div class="rounded-2 bg-white p-3 w-100 mt-5" id="commentPost">
+                            <h5 class="text-center mb-3">
+                                Comments
+                            </h5>
+                        </div>
                     </div>
                 </div>
             </div>
