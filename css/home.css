@@ -4,6 +4,10 @@ body {
     overflow: hidden;
 }
 
+html h1{
+    font-weight: bold;
+}
+
 .wrapper {
     width: 100%;
     display: flex;
@@ -67,7 +71,7 @@ body {
     opacity: 0.8;
 }
 
-.list-tasks {
+html .list-tasks {
     width: 100%;
     list-style: none;
     margin-top: 30px;
@@ -113,6 +117,10 @@ body {
 
 }
 
+.comment{
+    background-color: #1C67D9;
+}
+
 .checked {
     background-color: #23B220;
 }
@@ -145,6 +153,14 @@ body {
 
 p[contenteditable="true"] {
     cursor: text;
+}
+
+ .fa-comment-dots{
+    display: grid;
+    place-items: center;
+    padding-left: 0.3rem;
+    color: var(--second-color);
+    font-size: 15px;
 }
 
 .fa-check {
