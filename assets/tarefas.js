@@ -119,13 +119,19 @@ function mostrarTarefas() {
         const idTarefa = item.id
         novaLi +=
             `<li class="task ${item.concluida ? 'done' : ''}">
-          <div class="circle checked" onclick="concluirTarefa(${posicao}, ${idTarefa})"></div>
+          <div class="circle checked" onclick="concluirTarefa(${posicao}, ${idTarefa})">
+          <i class="fa-solid fa-check"></i>
+          </div>
           <p contenteditable="${item.editando ? 'true' : 'false'}" 
              onblur="finalizarEdicao(${posicao}, this.innerText, ${idTarefa})"
              onkeydown="verificarEnter(event, ${posicao}, ${idTarefa})">${item.tarefa}</p>
           <div class="edit-container">
-              <div class="circle edit" onclick="editarItem(${posicao}, ${idTarefa})"></div>
-              <div class="circle trash" onclick="deletarItem(${idTarefa})"></div> 
+              <div class="circle edit" onclick="editarItem(${posicao}, ${idTarefa})">
+              <i class="fa-solid fa-pen"></i>
+              </div>
+              <div class="circle trash" onclick="deletarItem(${idTarefa})">
+              <i class="fa-solid fa-trash"></i>
+              </div> 
           </div>
         </li>`
     })

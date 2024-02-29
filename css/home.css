@@ -3,7 +3,8 @@ body {
     background-size: cover;
     overflow: hidden;
 }
-.wrapper{
+
+.wrapper {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -11,7 +12,7 @@ body {
     min-height: 100vh;
 }
 
-.login-box{
+.login-box {
     width: 640px;
     display: flex;
     align-items: center;
@@ -44,7 +45,7 @@ body {
     outline: none;
 }
 
-.input-task::placeholder{
+.input-task::placeholder {
     color: #ffffff;
 }
 
@@ -70,22 +71,22 @@ body {
     width: 100%;
     list-style: none;
     margin-top: 30px;
-    max-height: 300px; 
+    max-height: 300px;
     overflow-y: auto;
 }
 
 .list-tasks::-webkit-scrollbar {
-    width: 8px; 
+    width: 8px;
     height: 10%
 }
 
 .list-tasks::-webkit-scrollbar-track {
-    background-color: transparent; 
+    background-color: transparent;
 }
 
 .list-tasks::-webkit-scrollbar-thumb {
-    background-color: transparent; 
-    border-radius: 16px; 
+    background-color: transparent;
+    border-radius: 16px;
 }
 
 .task {
@@ -101,24 +102,26 @@ body {
     cursor: pointer;
     font-size: 20px;
 }
+
 .circle {
-    width: 25px; 
-    height: 25px; 
-    border-radius: 50%; 
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
     display: inline-block;
     opacity: 0;
     transition: opacity 0.5s;
 
 }
 
-.checked{
+.checked {
     background-color: #23B220;
 }
 
-.trash{
+.trash {
     background-color: #FF0000;
 }
-.edit{
+
+.edit {
     background-color: #C6BE0F;
 }
 
@@ -142,4 +145,29 @@ body {
 
 p[contenteditable="true"] {
     cursor: text;
-  }
+}
+
+.fa-check {
+    display: grid;
+    place-items: center;
+    padding-left: 0.25rem;
+    color: var(--second-color);
+    font-size: 18px;
+}
+
+.fa-pen{
+    display: grid;
+    place-items: center;
+    padding-left: 0.4rem;
+    padding-top: -0.3125rem;
+    color: var(--second-color);
+    font-size: 12px;
+}
+
+.fa-trash{
+    display: grid;
+    place-items: center;
+    padding-left: 0.45rem;
+    color: var(--second-color);
+    font-size: 12px;
+}
