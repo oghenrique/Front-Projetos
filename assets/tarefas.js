@@ -40,11 +40,11 @@ async function obterTarefas() {
 async function adicionarNovaTarefa() {
     const userId = sessionStorage.getItem('userId')
     const userPremium = sessionStorage.getItem('isPremium')
-    const isPublic = document.getElementById("isPublic")
+    // const isPublic = document.getElementById("isPublic")
 
-    let statusCheckbox = isPublic.checked
+    // let statusCheckbox = isPublic.checked
 
-    let statusBoolean = statusCheckbox ? true : false
+    // let statusBoolean = statusCheckbox ? true : false
 
     if(userPremium == 0){ 
         alert("O usuário não é premium")
@@ -53,7 +53,7 @@ async function adicionarNovaTarefa() {
             tarefa: input.value,
             concluida: false,
             idUsuario: userId,
-            status: statusBoolean
+            // status: statusBoolean
         }
     
         try {
