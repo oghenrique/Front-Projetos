@@ -8,10 +8,16 @@ const userId = sessionStorage.getItem('userId')
 // console.log('UserID:', userId)
 
 async function obterTarefas() {
-    const userId = sessionStorage.getItem('userId')
-    const userPremium = sessionStorage.getItem('isPremium')
-    console.log('UserID:', userId)
-    console.log('premium:', userPremium)
+// <<<<<<< main
+//     const userId = sessionStorage.getItem('userId');
+//     // console.log('UserID:', userId);
+//     // console.log('premium:', userPremium)
+// =======
+//     const userId = sessionStorage.getItem('userId')
+//     const userPremium = sessionStorage.getItem('isPremium')
+//     console.log('UserID:', userId)
+//     console.log('premium:', userPremium)
+// >>>>>>> main
 
     const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`
 
@@ -41,6 +47,11 @@ async function obterTarefas() {
 async function adicionarNovaTarefa() {
     const userId = sessionStorage.getItem('userId')
     const userPremium = sessionStorage.getItem('isPremium')
+    // const isPublic = document.getElementById("isPublic")
+
+    // let statusCheckbox = isPublic.checked
+
+    // let statusBoolean = statusCheckbox ? true : false
 
     if(userPremium == 0){ 
         alert("O usuário não é premium")
@@ -48,7 +59,8 @@ async function adicionarNovaTarefa() {
         const novaTarefa = {
             tarefa: input.value,
             concluida: false,
-            idUsuario: userId
+            idUsuario: userId,
+            // status: statusBoolean
         }
     
         try {
