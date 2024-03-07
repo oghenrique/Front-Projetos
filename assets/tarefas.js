@@ -5,15 +5,11 @@ const input = document.querySelector('.input-task')
 const listaCompleta = document.querySelector('.list-tasks')
 let minhaListaDeItens = []
 const userId = sessionStorage.getItem('userId')
-    // console.log('UserID:', userId)
+const userPremium = sessionStorage.getItem('isPremium')
 
 async function obterTarefas() {
-    // Elimina las siguientes líneas, ya que userId ya está declarada globalmente
-    // const userId = sessionStorage.getItem('userId')
-    // const userId = sessionStorage.getItem('userId')
-    const userPremium = sessionStorage.getItem('isPremium')
+
     console.log('UserID:', userId)
-        // console.log('premium:', userPremium)
 
     const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`
 
@@ -40,10 +36,9 @@ async function obterTarefas() {
 }
 
 async function adicionarNovaTarefa() {
-    // Elimina la siguiente línea, ya que userId ya está declarada globalmente
-    // const userId = sessionStorage.getItem('userId')
-    const userPremium = sessionStorage.getItem('isPremium')
-        // const isPublic = document.getElementById("isPublic")
+
+
+    // const isPublic = document.getElementById("isPublic")
 
     // let statusCheckbox = isPublic.checked
 
@@ -51,7 +46,7 @@ async function adicionarNovaTarefa() {
 
     console.log(userPremium)
 
-    if (userPremium == false) {
+    if (userPremium === 'false') {
         alert("O usuário não é premium")
     } else {
         const novaTarefa = {
@@ -168,11 +163,12 @@ function mostrarTarefas() {
 }
 
 
-function mostrarModalComentario(idTarefaModal) {
+function mostrarModalComentario(nomeDaTarefa) {
     var myModal = new bootstrap.Modal(document.getElementById('modalComentario'), {
         keyboard: false
     })
-    myModal.show(idTarefaModal)
+    document.getElementById('modalComentarioLabel').innerText = nomeDaTarefa
+    myModal.show()
 
 }
 
