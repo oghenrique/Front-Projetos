@@ -111,6 +111,10 @@ html .list-tasks {
     padding-top: 1rem;
 }
 
+.modal-title{
+    font-weight: bold;
+}
+
 .circle {
     width: 25px;
     height: 25px;
