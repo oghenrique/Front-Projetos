@@ -1,3 +1,13 @@
 .input-box{
     margin: 30px 0;
 }
+
+.premium{
+    display: flex;
+    gap: 16px;
+    padding-left: 0.5rem;
+}
+
+#isPremium{
+    width: 20px;
+}
