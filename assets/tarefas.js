@@ -131,8 +131,6 @@ function mostrarTarefas() {
 
                  </div>
 
-                 <div class="circle comment" onclick="mostrarModalComentario(${posicao}, ${idTarefaModal})">
-
                  <div class="circle comment" onclick="mostrarModalComentario('${item.tarefa.replace("'", "\\'")}')">
 
                     <i class="fa-solid fa-comment-dots"></i>
