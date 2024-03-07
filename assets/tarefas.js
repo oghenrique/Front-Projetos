@@ -132,6 +132,8 @@ function mostrarTarefas() {
 
                  <div class="circle comment" onclick="mostrarModalComentario(${posicao}, ${idTarefaModal})">
 
+                 <div class="circle comment" onclick="mostrarModalComentario('${item.tarefa.replace("'", "\\'")}')">
+
                     <i class="fa-solid fa-comment-dots"></i>
 
                  </div>
@@ -166,11 +168,20 @@ function mostrarTarefas() {
     localStorage.setItem('lista', JSON.stringify(minhaListaDeItens))
 }
 
+
 function mostrarModalComentario(idTarefaModal) {
     var myModal = new bootstrap.Modal(document.getElementById('modalComentario'), {
         keyboard: false
     })
     myModal.show(idTarefaModal)
+
+function mostrarModalComentario(nomeDaTarefa) {
+    var myModal = new bootstrap.Modal(document.getElementById('modalComentario'), {
+        keyboard: false
+    })
+    document.getElementById('modalComentarioLabel').innerText = nomeDaTarefa;
+    myModal.show()
+
 }
 
 
