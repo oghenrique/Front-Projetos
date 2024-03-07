@@ -5,19 +5,15 @@ const input = document.querySelector('.input-task')
 const listaCompleta = document.querySelector('.list-tasks')
 let minhaListaDeItens = []
 const userId = sessionStorage.getItem('userId')
-// console.log('UserID:', userId)
+    // console.log('UserID:', userId)
 
 async function obterTarefas() {
-// <<<<<<< main
-//     const userId = sessionStorage.getItem('userId');
-//     // console.log('UserID:', userId);
-//     // console.log('premium:', userPremium)
-// =======
-//     const userId = sessionStorage.getItem('userId')
-//     const userPremium = sessionStorage.getItem('isPremium')
-//     console.log('UserID:', userId)
-//     console.log('premium:', userPremium)
-// >>>>>>> main
+    const userId = sessionStorage.getItem('userId');
+
+    const userId = sessionStorage.getItem('userId')
+    const userPremium = sessionStorage.getItem('isPremium')
+    console.log('UserID:', userId)
+    console.log('premium:', userPremium)
 
     const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`
 
@@ -47,22 +43,22 @@ async function obterTarefas() {
 async function adicionarNovaTarefa() {
     const userId = sessionStorage.getItem('userId')
     const userPremium = sessionStorage.getItem('isPremium')
-    // const isPublic = document.getElementById("isPublic")
+        // const isPublic = document.getElementById("isPublic")
 
     // let statusCheckbox = isPublic.checked
 
     // let statusBoolean = statusCheckbox ? true : false
 
-    if(userPremium == 0){ 
+    if (userPremium == 0) {
         alert("O usuário não é premium")
-    } else{
+    } else {
         const novaTarefa = {
             tarefa: input.value,
             concluida: false,
             idUsuario: userId,
             // status: statusBoolean
         }
-    
+
         try {
             const response = await fetch('http://127.0.0.1:5080/tarefas', {
                 method: 'POST',
@@ -71,11 +67,11 @@ async function adicionarNovaTarefa() {
                 },
                 body: JSON.stringify(novaTarefa)
             })
-    
+
             if (!response.ok) {
                 throw new Error('Erro ao adicionar nova tarefa')
             }
-    
+
             const tarefaCriada = await response.json()
             novaTarefa.id = tarefaCriada.id
             minhaListaDeItens.push(novaTarefa)
@@ -85,7 +81,7 @@ async function adicionarNovaTarefa() {
             console.error('Erro ao adicionar nova tarefa:', error)
         }
     }
-    
+
 }
 
 async function finalizarEdicao(posicao, novoTexto, idTarefa) {
@@ -123,27 +119,46 @@ async function finalizarEdicao(posicao, novoTexto, idTarefa) {
 function mostrarTarefas() {
     let novaLi = ''
     minhaListaDeItens.forEach((item, posicao) => {
-        const idTarefa = item.id
+        var idTarefaModal = item.id
         novaLi +=
             `<li class="task ${item.concluida ? 'done' : ''}">
             <div class="edit-container">
-                <div class="circle checked" onclick="concluirTarefa(${posicao}, ${idTarefa})">
+
+                <div class="circle checked" onclick="concluirTarefa(${posicao}, ${idTarefaModal})">
+
                     <i class="fa-solid fa-check"></i>
+
                  </div>
-                 <div class="circle comment" onclick="mostrarModalComentario(${posicao}, ${idTarefa})">
+
+                 <div class="circle comment" onclick="mostrarModalComentario(${posicao}, ${idTarefaModal})">
+
                     <i class="fa-solid fa-comment-dots"></i>
+
                  </div>
+
             </div>
+
           <p contenteditable="${item.editando ? 'true' : 'false'}" 
-             onblur="finalizarEdicao(${posicao}, this.innerText, ${idTarefa})"
-             onkeydown="verificarEnter(event, ${posicao}, ${idTarefa})">${item.tarefa}</p>
-          <div class="edit-container">
-              <div class="circle edit" onclick="editarItem(${posicao}, ${idTarefa})">
+
+             onblur="finalizarEdicao(${posicao}, this.innerText, ${idTarefaModal})"
+
+             onkeydown="verificarEnter(event, ${posicao}, ${idTarefaModal})">${item.tarefa}
+
+        </p>
+
+        <div class="edit-container">
+
+              <div class="circle edit" onclick="editarItem(${posicao}, ${idTarefaModal})">
+
               <i class="fa-solid fa-pen"></i>
-              </div>
-              <div class="circle trash" onclick="deletarItem(${idTarefa})">
+
+        </div>
+
+              <div class="circle trash" onclick="deletarItem(${idTarefaModal})">
+
               <i class="fa-solid fa-trash"></i>
-              </div> 
+
+            </div> 
           </div>
         </li>`
     })
@@ -151,17 +166,17 @@ function mostrarTarefas() {
     localStorage.setItem('lista', JSON.stringify(minhaListaDeItens))
 }
 
-function mostrarModalComentario() {
+function mostrarModalComentario(idTarefaModal) {
     var myModal = new bootstrap.Modal(document.getElementById('modalComentario'), {
         keyboard: false
     })
-    myModal.show()
+    myModal.show(idTarefaModal)
 }
 
 
 function editarItem(posicao, idTarefa) {
     minhaListaDeItens[posicao].editando = true
-    mostrarTarefas() 
+    mostrarTarefas()
 }
 
 function verificarEnter(event, posicao, idTarefa) {
