@@ -112,91 +112,93 @@ async function finalizarEdicao(posicao, novoTexto, idTarefa) {
 
 }
 
-
 function mostrarTarefas() {
     // Crear un fragmento para mejorar el rendimiento al agregar múltiples elementos al DOM
-    const fragmento = document.createDocumentFragment();
+    const fragmento = document.createDocumentFragment()
 
     minhaListaDeItens.forEach((item, posicao) => {
-        const li = document.createElement('li');
-        li.classList.add('task');
+        const li = document.createElement('li')
+        li.classList.add('task')
         if (item.concluida) {
-            li.classList.add('done');
+            li.classList.add('done')
         }
 
-        const editContainer = document.createElement('div');
-        editContainer.classList.add('edit-container');
+        const editContainer = document.createElement('div')
+        editContainer.classList.add('edit-container')
 
-        const checkedCircle = document.createElement('div');
-        checkedCircle.classList.add('circle', 'checked');
-        checkedCircle.onclick = () => concluirTarefa(posicao, item.id);
-        const checkIcon = document.createElement('i');
-        checkIcon.classList.add('fa-solid', 'fa-check');
-        checkedCircle.appendChild(checkIcon);
-        editContainer.appendChild(checkedCircle);
+        const checkedCircle = document.createElement('div')
+        checkedCircle.classList.add('circle', 'checked')
+        checkedCircle.onclick = () => concluirTarefa(posicao, item.id)
+        const checkIcon = document.createElement('i')
+        checkIcon.classList.add('fa-solid', 'fa-check')
+        checkedCircle.appendChild(checkIcon)
+        editContainer.appendChild(checkedCircle)
 
-        const commentCircle = document.createElement('div');
-        commentCircle.classList.add('circle', 'comment');
-        commentCircle.onclick = () => mostrarModalComentario(item.tarefa.replace("'", "\\'"));
-        const commentIcon = document.createElement('i');
-        commentIcon.classList.add('fa-solid', 'fa-comment-dots');
-        commentCircle.appendChild(commentIcon);
-        editContainer.appendChild(commentCircle);
+        const commentCircle = document.createElement('div')
+        commentCircle.classList.add('circle', 'comment')
 
-        const p = document.createElement('p');
-        p.contentEditable = item.editando ? 'true' : 'false';
-        p.textContent = item.tarefa;
-        p.onblur = () => finalizarEdicao(posicao, p.innerText, item.id);
-        p.onkeydown = (event) => verificarEnter(event, posicao, item.id);
+        commentCircle.onclick = () => mostrarModalComentario(item.id, item.tarefa)
+        const commentIcon = document.createElement('i')
+        commentIcon.classList.add('fa-solid', 'fa-comment-dots')
+        commentCircle.appendChild(commentIcon)
+        editContainer.appendChild(commentCircle)
 
-        const editContainer2 = document.createElement('div');
-        editContainer2.classList.add('edit-container');
+        const p = document.createElement('p')
+        p.contentEditable = item.editando ? 'true' : 'false'
+        p.textContent = item.tarefa
+        p.onblur = () => finalizarEdicao(posicao, p.innerText, item.id)
+        p.onkeydown = (event) => verificarEnter(event, posicao, item.id)
 
-        const editCircle = document.createElement('div');
-        editCircle.classList.add('circle', 'edit');
-        editCircle.onclick = () => editarItem(posicao, item.id);
-        const editIcon = document.createElement('i');
-        editIcon.classList.add('fa-solid', 'fa-pen');
-        editCircle.appendChild(editIcon);
-        editContainer2.appendChild(editCircle);
+        const editContainer2 = document.createElement('div')
+        editContainer2.classList.add('edit-container')
 
-        const trashCircle = document.createElement('div');
-        trashCircle.classList.add('circle', 'trash');
-        trashCircle.onclick = () => deletarItem(item.id);
-        const trashIcon = document.createElement('i');
-        trashIcon.classList.add('fa-solid', 'fa-trash');
-        trashCircle.appendChild(trashIcon);
-        editContainer2.appendChild(trashCircle);
+        const editCircle = document.createElement('div')
+        editCircle.classList.add('circle', 'edit')
+        editCircle.onclick = () => editarItem(posicao, item.id)
+        const editIcon = document.createElement('i')
+        editIcon.classList.add('fa-solid', 'fa-pen')
+        editCircle.appendChild(editIcon)
+        editContainer2.appendChild(editCircle)
 
-        li.appendChild(editContainer);
-        li.appendChild(p);
-        li.appendChild(editContainer2);
+        const trashCircle = document.createElement('div')
+        trashCircle.classList.add('circle', 'trash')
+        trashCircle.onclick = () => deletarItem(item.id)
+        const trashIcon = document.createElement('i')
+        trashIcon.classList.add('fa-solid', 'fa-trash')
+        trashCircle.appendChild(trashIcon)
+        editContainer2.appendChild(trashCircle)
 
-        fragmento.appendChild(li);
-    });
+        li.appendChild(editContainer)
+        li.appendChild(p)
+        li.appendChild(editContainer2)
 
-    // Limpiar el contenido anterior de listaCompleta
+        fragmento.appendChild(li)
+    })
+
     while (listaCompleta.firstChild) {
-        listaCompleta.removeChild(listaCompleta.firstChild);
+        listaCompleta.removeChild(listaCompleta.firstChild)
     }
 
-    // Agregar el fragmento al DOM
-    listaCompleta.appendChild(fragmento);
-
-    // No necesitas guardar la lista en el localStorage aquí, ya que la actualización del DOM no afecta la lista de elementos
+    listaCompleta.appendChild(fragmento)
 }
 
+function mostrarModalComentario(idTarefa, nomeDaTarefa) {
+    if (idTarefa !== undefined) {
+        console.log(idTarefa)
 
+        adicionarComentario(idTarefa)
+        var myModal = new bootstrap.Modal(document.getElementById('modalComentario'), {
+            keyboard: false
+        })
+        document.getElementById('modalComentarioLabel').innerText = nomeDaTarefa
 
-function mostrarModalComentario(nomeDaTarefa) {
-
-    var myModal = new bootstrap.Modal(document.getElementById('modalComentario'), {
-        keyboard: false
-    })
-    document.getElementById('modalComentarioLabel').innerText = nomeDaTarefa
-    myModal.show()
-
+        const idTarefas = sessionStorage.setItem('idTarefa', idTarefa)
+        myModal.show()
+    } else {
+        console.error('ID da tarefa não definido')
+    }
 }
+
 
 
 function editarItem(posicao, idTarefa) {
