@@ -8,12 +8,12 @@ const userId = sessionStorage.getItem('userId')
     // console.log('UserID:', userId)
 
 async function obterTarefas() {
-    const userId = sessionStorage.getItem('userId');
-
-    const userId = sessionStorage.getItem('userId')
+    // Elimina las siguientes líneas, ya que userId ya está declarada globalmente
+    // const userId = sessionStorage.getItem('userId')
+    // const userId = sessionStorage.getItem('userId')
     const userPremium = sessionStorage.getItem('isPremium')
     console.log('UserID:', userId)
-    console.log('premium:', userPremium)
+        // console.log('premium:', userPremium)
 
     const url = `http://127.0.0.1:5080/tarefas?idUsuario=${userId}`
 
@@ -39,9 +39,9 @@ async function obterTarefas() {
     }
 }
 
-
 async function adicionarNovaTarefa() {
-    const userId = sessionStorage.getItem('userId')
+    // Elimina la siguiente línea, ya que userId ya está declarada globalmente
+    // const userId = sessionStorage.getItem('userId')
     const userPremium = sessionStorage.getItem('isPremium')
         // const isPublic = document.getElementById("isPublic")
 
@@ -49,7 +49,9 @@ async function adicionarNovaTarefa() {
 
     // let statusBoolean = statusCheckbox ? true : false
 
-    if (userPremium == 0) {
+    console.log(userPremium)
+
+    if (userPremium == false) {
         alert("O usuário não é premium")
     } else {
         const novaTarefa = {
@@ -81,7 +83,6 @@ async function adicionarNovaTarefa() {
             console.error('Erro ao adicionar nova tarefa:', error)
         }
     }
-
 }
 
 async function finalizarEdicao(posicao, novoTexto, idTarefa) {
@@ -175,13 +176,6 @@ function mostrarModalComentario(idTarefaModal) {
     })
     myModal.show(idTarefaModal)
 
-function mostrarModalComentario(nomeDaTarefa) {
-    var myModal = new bootstrap.Modal(document.getElementById('modalComentario'), {
-        keyboard: false
-    })
-    document.getElementById('modalComentarioLabel').innerText = nomeDaTarefa;
-    myModal.show()
-
 }
 
 
@@ -218,7 +212,6 @@ async function concluirTarefa(posicao, idTarefa) {
             throw new Error('Erro ao concluir tarefa')
         }
 
-        // Atualiza a tarefa na lista local
         minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida
 
         mostrarTarefas()
@@ -248,7 +241,7 @@ async function deletarItem(idTarefa) {
 async function recarregarTarefas() {
     const userId = sessionStorage.getItem('userId')
     if (userId) {
-        await obterTarefas() // Chama a função para buscar as tarefas do servidor
+        await obterTarefas()
     } else {
         console.error('ID do usuário não encontrado no sessionStorage')
     }
